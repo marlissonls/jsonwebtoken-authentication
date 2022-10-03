@@ -2,3 +2,4 @@
 *.rar
 .env
 node_modules
+app2.js

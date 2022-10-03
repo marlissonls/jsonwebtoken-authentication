@@ -12,14 +12,15 @@ port = 3000;
 app.use('/', express.static('front/login'))
 app.use('/registration', express.static('front/registration'))
 app.use('/main', authorization, express.static('front/main'))
+app.use('/admin', authorization, express.static('front/admin'))
 
 const pool = new Pool({
-    user:       process.env.USER,       //  user:       'postgres',
-    password:   process.env.PASSWORD,   //  password:   'postgres',
-    host:       process.env.HOST,       //  host:       '10.0.0.108',
-    port:       process.env.PORT,       //  port:       5432,
-    database:   process.env.DATABASE,   //  database:   'cadastro',
-    max:        process.env.MAX         //  max:        20
+    user:       process.env.USER,
+    password:   process.env.PASSWORD,
+    host:       process.env.HOST,
+    port:       process.env.PORT,
+    database:   process.env.DATABASE,
+    max:        process.env.MAX
 });
 
 const SECRET = process.env.SECRET;
@@ -40,15 +41,16 @@ function authorization(req, res, next) {
     }
 };
 
-app.get("/", (req, res) => {
+app.get("/login", async (req, res) => {
     const token = jwt.sign({ id: 7, role: "captain" }, SECRET);
     return res
             .cookie("access_token", token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
             })
-            .status(200)
-            .json({ message: "Logged in successfully 😊 👌" });
+            .redirect('/main');
+            /* .json({ message: "Logged in successfully 😊 👌" })
+            .redirect('/main'); */
 });
 
 app.get("/main", authorization, (req, res) => {
@@ -58,8 +60,9 @@ app.get("/main", authorization, (req, res) => {
 app.get("/logout", authorization, (req, res) => {
     return res
             .clearCookie("access_token")
-            .status(200)
-            .json({ message: "Successfully logged out 😏 🍀" })
+            .redirect('/');
+            /* .status(200)
+            .json({ message: "Successfully logged out 😏 🍀" }) */
 });
 
 app.listen(port, () => {
