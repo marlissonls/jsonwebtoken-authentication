@@ -7,10 +7,13 @@ function logout() {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-        }//,
-        /* body: JSON.stringify({
+        }/* ,
+        body: JSON.stringify({
             name: nameInput,
             email: emailInput
         }) */
     })
+    .then(window.location.href='http://localhost:3000/')
+    .catch(err => console.log(err))
 }
+

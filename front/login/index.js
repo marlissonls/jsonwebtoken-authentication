@@ -7,10 +7,12 @@ function login() {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-        }//,
-        /* body: JSON.stringify({
+        }/* ,
+        body: JSON.stringify({
             name: nameInput,
             email: emailInput
         }) */
     })
+    .then(setTimeout(() => {window.location.href='http://localhost:3000/main'},100))
+    .catch(err => console.log(err))
 }
