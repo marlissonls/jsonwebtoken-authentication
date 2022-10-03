@@ -48,8 +48,7 @@ app.get("/login", async (req, res) => {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
             })
-            /* .redirect('/main'); */
-            .json({ message: "Logged in successfully 😊 👌" })
+            .json({ "message": "Logged in successfully" })
 });
 
 app.get("/main", authorization, (req, res) => {
@@ -59,8 +58,7 @@ app.get("/main", authorization, (req, res) => {
 app.get("/logout", authorization, (req, res) => {
     return res
             .clearCookie("access_token")
-            /* .redirect('/'); */
-            .json({ message: "Successfully logged out 😏 🍀" })
+            .json({ "message": "Successfully logged out" })
 });
 
 app.listen(port, () => {
