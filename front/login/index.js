@@ -13,6 +13,9 @@ function login() {
             email: emailInput
         }) */
     })
-    .then(setTimeout(() => {window.location.href='http://localhost:3000/main'},100))
-    .catch(err => console.log(err))
+    .then(res => res.json())
+    .then(data => {
+        window.location.href = 'http://localhost:3000/main';
+    })
+    .catch(err => console.log(err));
 }

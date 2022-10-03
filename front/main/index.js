@@ -13,7 +13,10 @@ function logout() {
             email: emailInput
         }) */
     })
-    .then(window.location.href='http://localhost:3000/')
-    .catch(err => console.log(err))
+    .then(res => res.json())
+    .then(data => {
+        window.location.href = 'http://localhost:3000';
+    })
+    .catch(err => console.log(err));
 }
 
