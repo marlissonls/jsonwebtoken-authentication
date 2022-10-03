@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cookieParser());
 port = 3000;
 
-/* app.use('/', express.static('front/login')) */
+app.use('/', express.static('front/login'))
 app.use('/registration', express.static('front/registration'))
 app.use('/main', authorization, express.static('front/main'))
 
@@ -22,8 +22,8 @@ const pool = new Pool({
     max:        process.env.MAX         //  max:        20
 });
 
-const SECRET = 'developer';
-const blacklist = [];
+const SECRET = process.env.SECRET;
+const blacklist = []; // Falta analisar
 
 function authorization(req, res, next) {
     const token = req.cookies.access_token;
@@ -31,7 +31,7 @@ function authorization(req, res, next) {
         return res.sendStatus(403);
     }
     try {
-        const data = jwt.verify(token, "YOUR_SECRET_KEY");
+        const data = jwt.verify(token, SECRET);
         req.userId = data.id;
         req.userRole = data.role;
         return next();
@@ -41,7 +41,7 @@ function authorization(req, res, next) {
 };
 
 app.get("/", (req, res) => {
-    const token = jwt.sign({ id: 7, role: "captain" }, "YOUR_SECRET_KEY");
+    const token = jwt.sign({ id: 7, role: "captain" }, SECRET);
     return res
             .cookie("access_token", token, {
                 httpOnly: true,
